@@ -1,0 +1,19 @@
+<div class="video-list">
+  <h1>Liste des Vidéos YouTube</h1>
+  <!--
+  <ng-container *ngIf="getVideos() | async as videos; else loading">
+    <div *ngFor="let video of videos.items" class="video-item">
+      <h2>{{ video.snippet.title }}</h2>
+      <img [src]="video.snippet.thumbnails.high.url" [alt]="video.snippet.title" />
+      <p>{{ video.snippet.description }}</p>
+      <a [href]="'https://www.youtube.com/watch?v=' + video.id.videoId" target="_blank">
+        Regarder la vidéo
+      </a>
+    </div>
+  </ng-container>
+  -->
+
+  <ng-template #loading>
+    <p>Chargement des vidéos...</p>
+  </ng-template>
+</div>
