@@ -1,0 +1,109 @@
+<div *ngIf="videoDetails" class="max-w-4xl mx-auto p-4 bg-white shadow-md rounded-lg">
+  <div class="flex">
+    <!-- Section de la vidéo -->
+    <div class="flex-1">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ videoDetails.snippet.title }}</h2>
+
+      <iframe
+        width="100%"
+        height="500"
+        [src]="safeUrl"
+        allowfullscreen
+        class="rounded-lg mb-4"
+      ></iframe>
+
+      <div>
+        <p class="text-gray-500">View count: <span class="font-semibold text-gray-800">{{ videoDetails.statistics.viewCount }}</span></p>
+        <p class="text-gray-500">Likes: <span class="font-semibold text-gray-800">{{ videoDetails.statistics.likeCount }}</span></p>
+      </div>
+    </div>
+
+    <!-- Section des commentaires -->
+    <div class="flex-1 pl-6">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Commentaires</h3>
+
+      <div class="mb-4">
+        <!-- Formulaire pour saisir le nom d'utilisateur -->
+        <input
+          [(ngModel)]="username"
+          placeholder="Nom d'utilisateur"
+          class="w-full p-2 border border-gray-300 rounded-lg mb-2"
+        />
+        <textarea
+          [(ngModel)]="newComment"
+          placeholder="Écrire un commentaire..."
+          class="w-full p-2 border border-gray-300 rounded-lg"
+          rows="4"
+        ></textarea>
+        <button
+          (click)="addComment()"
+          class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          Ajouter un commentaire
+        </button>
+      </div>
+
+      <div *ngIf="comments.length > 0">
+        <ul class="space-y-2">
+          <li *ngFor="let comment of comments; let i = index" class="bg-gray-100 p-2 rounded-lg">
+            <strong>{{ comment.user }}:</strong> {{ comment.comment }}
+
+            <!-- Afficher les likes et dislikes du commentaire -->
+            <div class="flex space-x-4 mt-2">
+              <button
+                (click)="likeComment(i)"
+                class="text-green-500 hover:text-green-600"
+              >
+                👍 {{ comment.likes }}
+              </button>
+              <button
+                (click)="dislikeComment(i)"
+                class="text-red-500 hover:text-red-600"
+              >
+                👎 {{ comment.dislikes }}
+              </button>
+            </div>
+
+            <!-- Afficher les réponses -->
+            <div *ngIf="comment.replies.length > 0" class="pl-6 mt-2">
+              <ul class="space-y-1">
+                <li *ngFor="let reply of comment.replies">
+                  <strong>{{ reply.user }}:</strong> {{ reply.reply }}
+                </li>
+              </ul>
+            </div>
+
+            <!-- Zone de réponse -->
+            <div *ngIf="replyingTo === i" class="mt-2">
+              <textarea
+                [(ngModel)]="newReply"
+                placeholder="Répondre..."
+                class="w-full p-2 border border-gray-300 rounded-lg"
+                rows="3"
+              ></textarea>
+              <button
+                (click)="addReply(i)"
+                class="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              >
+                Répondre
+              </button>
+            </div>
+
+            <!-- Bouton pour répondre -->
+            <button
+              (click)="replyingTo = replyingTo === i ? null : i"
+              class="mt-2 text-sm text-blue-500"
+            >
+              Répondre
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="comments.length === 0" class="text-gray-500">Aucun commentaire encore.</div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!videoDetails" class="text-center text-gray-600 p-4">
+  <p>Loading video details...</p>
+</div>

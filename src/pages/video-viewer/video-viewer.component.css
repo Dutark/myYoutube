@@ -1,0 +1,24 @@
+/* Ajoutez des styles pour les commentaires */
+textarea {
+  resize: none;
+  font-size: 16px;
+}
+
+button:hover {
+  transition: background-color 0.3s ease;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  border-left: 4px solid #3490dc;
+  padding-left: 10px;
+}
+
+.main-comments {
+  overflow-y: scroll;
+  height: 350px;
+}

@@ -1,0 +1,58 @@
+<div class="bg-gray-100 min-h-screen flex justify-center items-start p-6">
+  <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+    <!-- Header -->
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">
+        Welcome <span class="text-blue-600">{{ user?.username }}</span>!
+      </h1>
+      <p class="text-gray-600">Account information</p>
+    </div>
+
+    <!-- User Info -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 font-medium">Name: </span>
+        <span class="text-gray-800">{{ user?.username }}</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 font-medium">Email: </span>
+        <span class="text-gray-800">{{ user?.email }}</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 font-medium">Date inscription: </span>
+        <span class="text-gray-800">{{ user?.registerDate }}</span>
+      </div>
+    </div>
+
+    <!-- User Analytics Info -->
+    <div class="mt-6 space-y-4">
+      <h3 class="text-xl font-semibold text-gray-800">Your Analytics</h3>
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 font-medium">Views: </span>
+        <span class="text-gray-800">{{ analyticsData?.views }}</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 font-medium">Likes: </span>
+        <span class="text-gray-800">{{ analyticsData?.likes }}</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 font-medium">Subscribers Gained: </span>
+        <span class="text-gray-800">{{ analyticsData?.subscribersGained }}</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 font-medium">Subscribers Lost: </span>
+        <span class="text-gray-800">{{ analyticsData?.subscribersLost }}</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-6 flex justify-between">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Edit profile
+      </button>
+      <button (click)="logout()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+        Log Out
+      </button>
+    </div>
+  </div>
+</div>

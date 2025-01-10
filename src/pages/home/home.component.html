@@ -1,19 +1,112 @@
-<div class="video-list">
-  <h1>Liste des Vidéos YouTube</h1>
-  <!--
-  <ng-container *ngIf="getVideos() | async as videos; else loading">
-    <div *ngFor="let video of videos.items" class="video-item">
-      <h2>{{ video.snippet.title }}</h2>
-      <img [src]="video.snippet.thumbnails.high.url" [alt]="video.snippet.title" />
-      <p>{{ video.snippet.description }}</p>
-      <a [href]="'https://www.youtube.com/watch?v=' + video.id.videoId" target="_blank">
-        Regarder la vidéo
-      </a>
-    </div>
-  </ng-container>
-  -->
+<div class="flex h-screen">
+  <aside class="bg-gray-100 p-4 w-1/8 h-full">
+    <h2 class="font-bold mb-4">Playlists</h2>
+    <ng-container *ngIf="isLoggedIn(); else loggedOut">
+      <input
+        type="text"
+        placeholder="Name of the playlist"
+        #newPlaylistName
+        class="border p-2 w-full mb-4 rounded shadow"
+      />
+      <button
+        (click)="createPlaylist(newPlaylistName.value)"
+        class="bg-green-500 text-white px-4 py-2 rounded w-full mb-4"
+      >
+        Create une playlist
+      </button>
+    </ng-container>
+    <ng-template #loggedOut>
+      <p class="text-red-500">Please log in to create playlists.</p>
+    </ng-template>
 
-  <ng-template #loading>
-    <p>Chargement des vidéos...</p>
-  </ng-template>
+    <ul class="space-y-2">
+      <li
+        *ngFor="let playlist of playlists; let i = index"
+        [class.font-bold]="selectedPlaylistIndex === i"
+        (click)="selectPlaylist(i)"
+        class="cursor-pointer"
+      >
+        {{ playlist.name }} ({{ playlist.videos.length }})
+        <button (click)="deletePlaylist()" class="bg-red-500 text-white px-4 py-2 rounded">X</button>
+      </li>
+    </ul>
+    <div *ngIf="selectedPlaylistIndex !== null">
+      <h3 class="text-xl font-semibold mt-6">
+        Vidéos de la playlist "{{ playlists[selectedPlaylistIndex].name }}"
+      </h3>
+      <ul class="mt-4">
+        <li *ngFor="let video of playlists[selectedPlaylistIndex].videos" class="bg-white p-4 mb-2 rounded shadow flex justify-between">
+          <div>
+            <h4 class="font-semibold">{{ video.snippet.title | slice:0:20 }}</h4>
+            <a routerLink="/videoViewer/{{ video.id }}">{{ video.snippet.description | slice:0:50 }} ... </a>
+          </div>
+          <button
+            (click)="toggleVideoInPlaylist(video)"
+            [class.bg-blue-500]="!isVideoInPlaylist(video)"
+            [class.bg-red-500]="isVideoInPlaylist(video)"
+            class="text-white px-4 py-2 rounded"
+          >
+            {{ 'X' }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="flex-1 p-4">
+    <h1 class="text-2xl font-bold my-4">List of Youtube Videos</h1>
+    <input
+      type="text"
+      placeholder="Looking for a video"
+      class="border p-2 w-full mb-4 rounded shadow"
+      [(ngModel)]="searchTerm"
+      (input)="filterVideos()"
+    />
+    <div class="flex items-center mb-4">
+      <button
+        (click)="showTrendingVideos()"
+        [class.bg-red-700]="isTrendingActive"
+        class="bg-red-500 text-white px-4 py-2 rounded"
+      >
+        Tendances
+      </button>
+      <button
+        (click)="showAllVideos()"
+        class="bg-blue-500 text-white px-4 py-2 rounded ml-2"
+      >
+        Tous
+      </button>
+    </div>
+
+    <div class="video-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ng-container *ngIf="filteredVideos.length > 0; else noResults">
+        <div *ngFor="let video of filteredVideos" class="video-item bg-white rounded-lg shadow-lg overflow-hidden">
+          <img [src]="video.snippet.thumbnails.high.url" [alt]="video.snippet.title" class="w-full h-48 object-cover"/>
+          <div class="p-4">
+            <h2 class="text-lg font-semibold mb-2">{{ video.snippet.title }}</h2>
+            <p [ngClass]="{'show-more': video.snippet.description.length > 100}" class="text-gray-700 mb-4">
+              {{ video.snippet.description | slice:0:100 }}...
+              <a *ngIf="video.snippet.description.length > 100" class="text-blue-500 cursor-pointer"
+                 (click)="video.showMore = !video.showMore">
+                Show {{ video.showMore ? 'less' : 'more' }}
+              </a>
+            </p>
+            <button
+              (click)="toggleVideoInPlaylist(video)"
+              [class.bg-blue-500]="!isVideoInPlaylist(video)"
+              [class.bg-red-500]="isVideoInPlaylist(video)"
+              class="text-white px-4 py-2 rounded"
+            >
+              {{ isVideoInPlaylist(video) ? 'Remove' : 'Add' }}
+            </button>
+
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noResults>
+        <p class="text-center text-gray-500">Nothing found</p>
+      </ng-template>
+    </div>
+  </div>
 </div>

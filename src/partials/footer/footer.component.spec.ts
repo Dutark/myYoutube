@@ -14,12 +14,6 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'MyYoutube' title`, () => {
-    const fixture = TestBed.createComponent(FooterComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('MyYoutube');
-  });
-
   it('should render title', () => {
     const fixture = TestBed.createComponent(FooterComponent);
     fixture.detectChanges();

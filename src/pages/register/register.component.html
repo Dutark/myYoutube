@@ -1,19 +1,17 @@
-<div style="display: flex; justify-content: center; align-items: center; height: 75vh;">
-  <form style="width: 300px; text-align: center;" (ngSubmit)="onSubmit()">
-    <label for="email">
+<div class="flex justify-center items-center h-[75vh]">
+  <form class="w-80 text-center space-y-4" (ngSubmit)="onSubmit()">
+    <label for="email" class="block text-left">
       Email:
-      <input type="email" id="email" [(ngModel)]="email" name="email" style="width: 100%;">
+      <input type="email" id="email" [(ngModel)]="email" name="email" class="border p-2 w-full">
     </label>
-    <br>
-    <label for="password">
+    <label for="password" class="block text-left">
       Password:
-      <input type="password" id="password" [(ngModel)]="password" name="password" style="width: 100%;">
+      <input type="password" id="password" [(ngModel)]="password" name="password" class="border p-2 w-full">
     </label>
-    <label for="plainPassword">
+    <label for="plainPassword" class="block text-left">
       Repeat password:
-      <input type="password" id="plainPassword" [(ngModel)]="plainPassword" name="plainPassword" style="width: 100%;">
+      <input type="password" id="plainPassword" [(ngModel)]="plainPassword" name="plainPassword" class="border p-2 w-full">
     </label>
-    <br>
-    <button type="submit">Next</button>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
   </form>
 </div>

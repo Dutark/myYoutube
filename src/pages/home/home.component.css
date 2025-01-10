@@ -1,0 +1,14 @@
+aside ul li {
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+aside ul li:hover {
+  background-color: #f3f4f6;
+}
+
+aside ul li.font-bold {
+  background-color: #d1d5db;
+}
